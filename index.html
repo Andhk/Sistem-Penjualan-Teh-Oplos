@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kasir - Teh Oplos Ibu Risma</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js untuk Grafik -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Teh Oplos Ibu Risma</h1>
+    <p>Sistem Pencatatan Penjualan & Keuangan</p>
+  </header>
+
+  <div class="container">
+
+    <!-- BAGIAN 1: STOK BARANG -->
+    <section class="card">
+      <h2>📦 Informasi & Kelola Stok</h2>
+      <div class="stock-grid">
+        <div class="stock-item">
+          <span>Cup Besar</span>
+          <strong id="stock-cup-besar">0</strong>
+        </div>
+        <div class="stock-item">
+          <span>Cup Kecil</span>
+          <strong id="stock-cup-kecil">0</strong>
+        </div>
+        <div class="stock-item">
+          <span>Kopi</span>
+          <strong id="stock-kopi">0</strong>
+        </div>
+        <div class="stock-item">
+          <span>Creamer</span>
+          <strong id="stock-creamer">0</strong>
+        </div>
+      </div>
+      <form id="form-stok" class="form-row">
+        <select id="stok-item" required>
+          <option value="">-- Pilih Item --</option>
+          <option value="cupBesar">Cup Besar</option>
+          <option value="cupKecil">Cup Kecil</option>
+          <option value="kopi">Kopi</option>
+          <option value="creamer">Creamer</option>
+        </select>
+        <input type="number" id="stok-jumlah" placeholder="+ Tambah Jumlah" min="1" required>
+        <button type="submit" class="btn btn-secondary">Tambah Stok</button>
+      </form>
+    </section>
+
+    <!-- BAGIAN DEPOSIT MODAL OWNER -->
+    <section class="card">
+      <h2>💰 Input Deposit / Modal Awal Owner</h2>
+      <form id="form-topup-deposit" class="form-row">
+        <input type="text" id="deposit-ket" placeholder="Keterangan (Contoh: Modal Awal Harian)" required>
+        <input type="number" id="deposit-nominal" placeholder="Nominal Modal (Rp)" min="1000" required>
+        <button type="submit" class="btn btn-secondary">Tambah Modal</button>
+      </form>
+    </section>
+
+    <!-- BAGIAN 2: FORM PENJUALAN -->
+    <section class="card">
+      <h2>🛒 Input Penjualan</h2>
+      <form id="form-penjualan">
+        <div class="form-group">
+          <label for="produk">Pilih Produk:</label>
+          <select id="produk" required>
+            <option value="">-- Pilih Produk --</option>
+            <option value="cb">Cup Besar - Rp 5.000</option>
+            <option value="cbc">Cup Besar + Creamer - Rp 7.000 (Harga 5.000 + 2.000)</option>
+            <option value="ck">Cup Kecil - Rp 3.000</option>
+            <option value="ckc">Cup Kecil + Creamer - Rp 5.000 (Harga 3.000 + 2.000)</option>
+            <option value="creamer">Creamer Add-on - Rp 2.000</option>
+            <option value="kopi">Kopi - Rp 4.000</option>
+            <option value="jajanan">Jajanan - Input Manual</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="harga-jajanan-group" style="display: none;">
+          <label for="harga-jajanan">Harga Jajanan (Rp):</label>
+          <input type="number" id="harga-jajanan" placeholder="Masukkan harga jajanan">
+        </div>
+
+        <div class="form-group">
+          <label for="jumlah">Jumlah Porsi/Unit:</label>
+          <input type="number" id="jumlah" min="1" value="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="pembayaran">Metode Pembayaran:</label>
+          <select id="pembayaran" required>
+            <option value="Tunai">Tunai</option>
+            <option value="Utang">Utang</option>
+            <option value="QR">QRIS / QR</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Simpan Transaksi</button>
+      </form>
+    </section>
+
+    <!-- BAGIAN 3: FORM PENGELUARAN -->
+    <section class="card">
+      <h2>💸 Input Pengeluaran</h2>
+      <form id="form-pengeluaran">
+        <div class="form-group">
+          <label for="pengeluaran-nama">Keterangan Pengeluaran:</label>
+          <input type="text" id="pengeluaran-nama" placeholder="Contoh: Beli Es Batu, Beli Plastik" required>
+        </div>
+        <div class="form-group">
+          <label for="pengeluaran-nominal">Nominal (Rp):</label>
+          <input type="number" id="pengeluaran-nominal" min="100" placeholder="0" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Catat Pengeluaran</button>
+      </form>
+    </section>
+
+    <!-- BAGIAN 4: RINGKASAN & GRAFIK -->
+    <section class="card">
+      <h2>📊 Ringkasan Penjualan & Keuangan</h2>
+      <div class="summary-grid">
+        <div class="summary-box tehs">
+          <h3>Penjualan Teh</h3>
+          <p id="total-teh">Rp 0</p>
+        </div>
+        <div class="summary-box non-tehs">
+          <h3>Kopi & Jajanan</h3>
+          <p id="total-kopi-jajanan">Rp 0</p>
+        </div>
+        <div class="summary-box pengeluaran">
+          <h3>Total Pengeluaran</h3>
+          <p id="total-pengeluaran">Rp 0</p>
+        </div>
+        <div class="summary-box deposit-modal">
+          <h3>Deposit / Modal Owner</h3>
+          <p id="total-deposit-modal">Rp 0</p>
+        </div>
+        <div class="summary-box pendapatan">
+          <h3>Total Pendapatan Bersih</h3>
+          <p id="total-pendapatan">Rp 0</p>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Grafik Tren Penjualan Harian</h3>
+        <canvas id="salesChart"></canvas>
+      </div>
+    </section>
+
+    <!-- BAGIAN 5: HISTORI TRANSAKSI -->
+    <section class="card">
+      <h2>📜 Riwayat Transaksi (Waktu Real-time)</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Tipe</th>
+              <th>Keterangan</th>
+              <th>Kategori</th>
+              <th>Metode</th>
+              <th>Total (Rp)</th>
+            </tr>
+          </thead>
+          <tbody id="tabel-transaksi">
+            <!-- Data dimasukkan dari JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
