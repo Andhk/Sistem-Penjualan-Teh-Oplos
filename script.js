@@ -18,10 +18,10 @@ const db = firebase.database();
 
 // State Variabel Lokal
 let stok = {
-  cupBesar: 0,
-  cupKecil: 0,
-  kopi: 0,
-  creamer: 0
+  cupBesar: 50,
+  cupKecil: 50,
+  kopi: 50,
+  creamer: 50
 };
 let transaksi = [];
 let salesChart = null;
@@ -158,7 +158,7 @@ document.getElementById('form-penjualan').addEventListener('submit', function (e
       break;
     case 'ckc':
       namaProduk = "Cup Kecil + Creamer";
-      harga = 8000;
+      harga = 5000;
       kategori = "Teh";
       butuhCupKecil = jumlah;
       butuhCreamer = jumlah;
@@ -171,7 +171,7 @@ document.getElementById('form-penjualan').addEventListener('submit', function (e
       break;
     case 'kopi':
       namaProduk = "Kopi";
-      harga = 4000;
+      harga = 5000;
       kategori = "Kopi/Jajanan";
       butuhKopi = jumlah;
       break;
