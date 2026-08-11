@@ -120,7 +120,7 @@ document.getElementById('form-penjualan').addEventListener('submit', function (e
       break;
     case 'ckc':
       namaProduk = "Cup Kecil + Creamer";
-      harga = 8000;
+      harga = 5000;
       kategori = "Teh";
       butuhCupKecil = jumlah;
       butuhCreamer = jumlah;
@@ -133,7 +133,7 @@ document.getElementById('form-penjualan').addEventListener('submit', function (e
       break;
     case 'kopi':
       namaProduk = "Kopi";
-      harga = 4000;
+      harga = 5000;
       kategori = "Kopi/Jajanan";
       butuhKopi = jumlah;
       break;
